@@ -24,24 +24,23 @@
           </a>
     </nav></div><br><br>
       <div class="container">
+        <div class="row"></div>
         <div class="card-deck">
         <div class="card">
           <img src="{{url_for('static', filename='desk.jpg')}}" class="img-fluid"/>
           <div class="card-body text-center">
             <h5 class="card-title">Registration/Admission desk executive</h5>
             <p class="card-text">Login to view the Patient's details and billing details rendered.</p>
-          <button type="button" class="btn btn-success">Login</button>
-          <button type="button" class="btn btn-light">Register</button>
+          <a href='login1' style="padding:8px 12px 8px 12px ; background-color: rgb(17, 170, 50); text-decoration: none; color: white; border-radius: 4px;">Login</a>
+          </div>
         </div>
-      </div>
 
         <div class="card">
           <img src="{{url_for('static', filename='pharm.jpg')}}" class="img-fluid" />
           <div class="card-body text-center">
             <h5 class="card-title">Pharmacist</h5>
             <p class="card-text">Login to manage medicines issued to the patients.</p>
-          <button type="button" class="btn btn-success">Login</button>
-          <button type="button" class="btn btn-light">Register</button>
+            <a href='login2' style="padding:8px 12px 8px 12px ; background-color: rgb(17, 170, 50); text-decoration: none; color: white; border-radius: 4px;">Login</a>
         </div>
         </div>
 
@@ -51,13 +50,12 @@
             <h5 class="card-title">Diagnostic services <br> executive
             </h5>
             <p class="card-text">Login to manage the diagnostic services rendered to the patients.</p>
-             <button type="button" class="btn btn-success" onclick="window.location.href='#';" >Login</button>
-             <button type="button" class="btn btn-light">Register</button>
+            <a href='login3' style="padding:8px 12px 8px 12px ; background-color: rgb(17, 170, 50); text-decoration: none; color: white; border-radius: 4px;">Login</a>
           </div>
         </div>
         </div>
       </div>
+      </div>
     </div>
-    
   </body>
 </html>
