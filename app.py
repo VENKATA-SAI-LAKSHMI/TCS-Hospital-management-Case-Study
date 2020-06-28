@@ -1,9 +1,12 @@
 from flask import (
     Flask,
     render_template,
-    url_for
+    url_for,
+    request,
+    redirect
 )
 from flask_sqlalchemy import SQLAlchemy
+import sqlite3 as sql
 from datetime import datetime
 
 app = Flask(__name__)
@@ -52,18 +55,30 @@ class Diagnostics(db.Model):
 
 @app.route('/')
 def home():
+    error = ''
     return render_template('home.html')
 
 
-@app.route('/login1')
+@app.route('/login1', methods=['GET', 'POST'])
 def login1():
     message = 'Welcome Registration/Admission desk executive'
+    error = ''
+    con = sql.connect("db.sqlite3")
+    cur = con.cursor()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        for i in cur.execute('SELECT * FROM Login'):
+            if i[0] == username and i[1] == password:
+                return redirect(url_for('profile1'))
+        return render_template('login.html', z=message, error='Error: Incorrect Username or Password')
     return render_template('login.html', z=message)
 
 
 @app.route('/login2')
 def login2():
     message = 'Welcome Pharmacist'
+
     return render_template('login.html', z=message)
 
 
@@ -72,15 +87,150 @@ def login3():
     message = 'Welcome Diagnostic services executive'
     return render_template('login.html', z=message)
 
+
 @app.route('/profile1')
 def profile1():
-    message = 'Welcome Diagnostic services executive'
-    return render_template('profile1.html', z=message)
+    return render_template('profile1.html')
 
-@app.route('/createpatient')
+
+@app.route('/createpatient', methods=['GET', 'POST'])
 def create():
-    message = 'Welcome Diagnostic services executive'
+    if request.method == 'POST':
+
+        sid = request.form['cid']
+        id = int(sid)+1
+        name = request.form['name']
+        age = request.form['age']
+        doa = request.form['date']
+        tob = request.form['trans']
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        status = "created"
+
+        con = sql.connect("db.sqlite3")
+        cur = con.cursor()
+        cur.execute("INSERT INTO patients (sid,id,name,age,doa,tob,address,city,state,status) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                    (sid, id, name, age, doa, tob, address, city, state, status))
+        con.commit()
+        con.close()
+
     return render_template('createpatient.html')
+
+
+@app.route('/updatepatient', methods=['GET', 'POST'])
+def update():
+    if request.method == 'POST':
+        if "get1" in request.form:
+            getsid = request.form['sid']
+            print(55)
+            con = sql.connect("db.sqlite3")
+            con.row_factory = sql.Row
+
+            cur = con.cursor()
+            ss = "SELECT * FROM patients WHERE SID=?;"
+            for row in cur.execute(ss, [getsid]):
+                sid = row[0]
+                name = row[2]
+                age = row[3]
+                doa = row[4]
+                tob = row[5]
+                address = row[6]
+                city = row[7]
+                state = row[8]
+
+            return render_template("updatepatient.html", sid=sid, tob=tob, name=name, age=age, doa=doa, address=address, city=city, state=state)
+        if "sub" in request.form:
+            sid = request.form['getsid']
+            id = int(sid)+1
+            name = request.form['name']
+            age = request.form['age']
+            doa = request.form['doa']
+            tob = request.form.get('tob')
+            address = request.form['address']
+            city = request.form['city']
+            state = request.form['state']
+            status = "created"
+
+            con = sql.connect("db.sqlite3")
+            cur = con.cursor()
+            cur.execute("UPDATE patients SET id=?,name=?,age=?,doa=?,tob=?,address=?,city=?,state=?,status=? WHERE sid=?",
+                        (id, name, age, doa, tob, address, city, state, status, sid))
+            con.commit()
+            con.close()
+            return render_template('searchud.html', z='Updated Sucessfully')
+
+    return render_template('searchud.html')
+
+
+@app.route('/deletepatient', methods=['GET', 'POST'])
+def delete():
+    if request.method == 'POST':
+        if "get1" in request.form:
+            getsid = request.form['sid']
+            print(55)
+            con = sql.connect("db.sqlite3")
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            ss = "SELECT * FROM patients WHERE SID=?;"
+            if len(ss) == 35:
+                return render_template('searchud.html', z='No Data Found')
+            for row in cur.execute(ss, [getsid]):
+                sid = row[0]
+                name = row[2]
+                age = row[3]
+                doa = row[4]
+                tob = row[5]
+                address = row[6]
+                city = row[7]
+                state = row[8]
+
+            return render_template("deletepatient.html", sid=sid, tob=tob, name=name, age=age, doa=doa, address=address, city=city, state=state)
+
+        sid = request.form['getsid']
+        con = sql.connect("db.sqlite3")
+        cur = con.cursor()
+        cur.execute("DELETE  FROM patients WHERE sid=?;", [sid])
+        con.commit()
+        con.close()
+        print(44)
+    return render_template('searchud.html')
+
+
+@app.route('/searchpatients', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        if "get1" in request.form:
+            getsid = request.form['sid']
+            print(55)
+            con = sql.connect("db.sqlite3")
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            count = 0
+            l = []
+            ss = "SELECT * FROM patients WHERE SID=?;"
+            for row in cur.execute(ss, [getsid]):
+                l.append(row)
+                count += 1
+
+            if count == 0:
+                return render_template('searchud.html', z='No Data Found')
+            return render_template("searchresults.html", z=l )
+    return render_template('searchud.html')
+
+@app.route('/viewpatients')
+def viewall():
+    l = []
+    con = sql.connect("db.sqlite3")
+    cur = con.cursor()
+    for row in cur.execute('SELECT * FROM patients'):
+        l.append(row)
+    return render_template('searchresults.html',z=l)
+
+
+@app.route('/patientbill')
+def patientbill():
+    return render_template('patientbill.html')
 
 
 if __name__ == '__main__':

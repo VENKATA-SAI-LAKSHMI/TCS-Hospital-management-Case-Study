@@ -1,5 +1,5 @@
 {% extends 'profile1.html' %} {% block head %}
-<title>Create</title>
+<title>Update Details</title>
 <link
   rel="stylesheet"
   href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -22,16 +22,18 @@
   <!-- form user info -->
   <div class="card" style="margin-left: 20%; margin-top: 5%;">
     <div class="card-header" style="background-color: rgb(45, 187, 26);">
-      <h4 class="mb-0" style="color: white;">Create Patient</h4>
+      <h4 class="mb-0" style="color: white;">Update Patient</h4>
     </div>
     <div class="card-body">
-      <form class="form" method="POST" role="form" autocomplete="off">
+    
+      <form class="form"  method="POST" role="form" autocomplete="off">
+        
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label"
             >Patient SSN ID</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="text" name="cid" value="" />
+            <input class="form-control" type="text" name="getsid" value="{{sid}}" />
           </div>
         </div>
 
@@ -40,13 +42,13 @@
             >Patient name</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="text" name="name" value="" />
+            <input class="form-control" type="text" name="name" value="{{name}}" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label">Age</label>
           <div class="col-lg-9">
-            <input class="form-control" type="" name="age" value="" />
+            <input class="form-control" type="" name="age" value="{{age}}" />
           </div>
         </div>
         <div class="form-group row">
@@ -59,7 +61,8 @@
                 type="text"
                 style="margin-left: 7.5%;"
                 class="form-control"
-                name="date"
+                name="doa"
+                value="{{doa}}"
               />
               <span class="input-group-addon add-on"
                 ><span class="glyphicon glyphicon-calendar"></span
@@ -114,9 +117,9 @@
             >Type of Bed</label
           >
           <div class="col-lg-9">
-            <select class="form-control" name="trans" style="width: 60%;">
-              <option value="" disabled selected>Choose from options</option>
-              <option value="General Ward"> General Ward</option>
+            <select class="form-control" name="tob" style="width: 60%;">
+              <option value="" >{{tob}}</option>
+              <option value=" General Ward"> General Ward</option>
               <option value="Semi-sharing"> Semi-sharing</option>
               <option value="Single room"> Single room</option>
             </select>
@@ -127,13 +130,13 @@
             >Address</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="" name="address" value="" />
+            <input class="form-control" type="" value="{{address}}"name="address" value="" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label">City</label>
           <div class="col-lg-9">
-            <input class="form-control" type="" name="city" value="" />
+            <input class="form-control" type="" value="{{city}}" name="city" value="" />
           </div>
         </div>
         <div class="form-group row">
@@ -141,23 +144,26 @@
             >State</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="" name="state" value="" />
+            <input class="form-control" type="" value="{{state}}" name="state" value="" />
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label"></label>
           <div class="col-lg-9">
-            <a href="profile1" style="padding:5px 12px 10px 14px ; background-color: red; text-decoration: none; color: white; border-radius: 4px; ">Cancel</a>
+            
             <button
-              type="submit"
+            name="sub"  
+            type="submit"
               class="btn btn-secondary"
               style="background-color: rgb(45, 187, 26);"
             >
-              Submit
+              Update
             </button>
+            <a href="updatepatient" style="padding:5px 12px 10px 14px ; background-color: red; text-decoration: none; color: white; border-radius: 4px; margin-left: 3%;">Reset</a>
           </div>
         </div>
+        
       </form>
     </div>
   </div>
