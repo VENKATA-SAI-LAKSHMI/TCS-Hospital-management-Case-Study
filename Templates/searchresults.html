@@ -9,21 +9,21 @@
 
 {% endblock %} {% block body %}
 
-<div class="col-lg-8" style="margin: 5% 0% 0% 7%">
-  <table class="table">
+<div class="col-lg-9" style="margin: 5% 0% 0% 7%">
+  <table class="table table-striped">
     <thead style="background-color: rgb(45, 187, 26); color: white;">
       <th>ID</th>
       <th>Name</th>
       <th>Age</th>
       <th>Date of admission</th>
-      <th>Type of Bead</th>
+      <th>Type of Bed</th>
       <th>Address</th>
       <th>City</th>
       <th>State</th>
     </thead>
     <tbody>
       {% for i in z %}
-      <tr>
+      <tr style="background-color: white; padding: 2%;">
         <td>{{ i[0] }}</td>
         <td>{{ i[2] }}</td>
         <td>{{ i[3] }}</td>
